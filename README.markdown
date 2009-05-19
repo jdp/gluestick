@@ -19,7 +19,7 @@ If you wanted to use the `user/friends` method, you would do this:
 
 See the correspondence? `$glue->user->friends` maps itself to `http://api.getglue.com/v1/user/friends`.
 
-Query string parameters are passed through an array as the first argument.
+Query string parameters are passed through an array as the first argument. **That's all you need to know.**
 
 ## About
 
