@@ -33,7 +33,7 @@ class Glue
         params = uri.query
       end
       Net::HTTP.start('api.getglue.com') do |http|
-        req = Net::HTTP::Get.new('/v1/%s?%s' % [method, params])
+        req = Net::HTTP::Get.new("/v1/%s?%s" % [method, params])
         req.basic_auth @username, @password
         @response = http.request(req)
       end

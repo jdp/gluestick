@@ -9,5 +9,5 @@ Gem::Specification.new do |s|
   s.description = %q{Gluestick provides a simple and straightforward interface to the Glue API.}
   s.requirements << 'addressable, 2.1.0 or greater'
   s.add_dependency 'addressable', '>= 2.1.0'
-  s.files = ["README", "LICENSE", "lib/glue.rb"]
+  s.files = ["README", "LICENSE", "lib/gluestick.rb"]
 end
