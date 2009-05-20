@@ -24,3 +24,4 @@ Query string parameters are passed through a hash as the first argument. **That'
 ## About
 
 2009 [Justin Poliey](http://justinpoliey.com)
+[Gluestick PHP port](http://github.com/jdp/gluestick/tree/php)
