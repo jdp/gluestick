@@ -11,14 +11,16 @@ begin
     gemspec.homepage = "http://github.com/jdp/gluestick"
     gemspec.description = "A simple interface to the Glue API"
     gemspec.authors = ["Justin Poliey"]
+    gemspec.add_dependency "httparty", ">= 0.4.3"
   end
 rescue LoadError
   puts "Jeweler not available. Install it with: sudo gem install technicalpickles-jeweler -s http://gems.github.com"
 end
 
 desc "Run basic tests"
-Rake::TestTask.new("test_units") do |t|
+Rake::TestTask.new("test") do |t|
   t.pattern = "test/*_test.rb"
   t.verbose = true
-  t.warning = true
+  # HTTParty generates tons of warnings
+  t.warning = false
 end
