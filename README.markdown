@@ -24,4 +24,8 @@ Query string parameters are passed through a hash as the first argument. **That'
 ## About
 
 2009 [Justin Poliey](http://justinpoliey.com)
-[Gluestick PHP port](http://github.com/jdp/gluestick/tree/php)
+
+## PHP Version
+
+Gluestick is also available as a PHP library.
+It is available in the 'php' branch, or you can just follow [this link](http://github.com/jdp/gluestick/tree/php).
