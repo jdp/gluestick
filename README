@@ -1,3 +1,7 @@
 Call methods simply,
 You already know their names,
 No need to worry.
+
+  Gluestick is a minimalist approach to the
+Glue API. It is primarily a Ruby Gem, but a
+PHP version exists as well.
