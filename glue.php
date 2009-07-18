@@ -27,7 +27,7 @@ abstract class Gluestick {
 	}
 
 	function __call($name, $args) {
-		$fields = http_build_query((count($args) > 0) ? $args[0] : array());
+		$fields = http_build_query((count($args) > 0) ? $args[0] : array(), '', '&');
 		$method = (isset($this->__method_family)) ? sprintf('%s/%s', $this->__method_family, $name) : $name;
 		$api_call = sprintf('http://api.getglue.com/v1/%s?%s', $method, $fields);
 		return $this->request($api_call);
@@ -53,9 +53,9 @@ class Glue extends Gluestick {
 
 class GlueAsync extends Gluestick {
 
-	private $handles = array();
+	var $handles = array();
 	
-	protected function request($api_url) {
+	function request($api_url) {
 		$curl_handle = curl_init();
 		curl_setopt($curl_handle, CURLOPT_URL, $api_url);
 		curl_setopt($curl_handle, CURLOPT_USERPWD, $this->credentials);
@@ -64,14 +64,14 @@ class GlueAsync extends Gluestick {
 		return $curl_handle;
 	}
 	
-	public function exec($handles = array()) {
-		$handles = count($handles) ? $handles : $this->handles;
+	function exec() {
+		$handles = count(func_get_args()) ? func_get_args() : $this->handles;
 		$multi_handle = curl_multi_init();
 		foreach ($handles as $handle) {
 			curl_multi_add_handle($multi_handle, $handle);
 		}
 		do {
-    		$mrc = curl_multi_exec($multi_handle, $active);
+			$mrc = curl_multi_exec($multi_handle, $active);
 		} while ($mrc == CURLM_CALL_MULTI_PERFORM);
 		while ($active && $mrc == CURLM_OK) {
 			if (curl_multi_select($multi_handle) != -1) {
