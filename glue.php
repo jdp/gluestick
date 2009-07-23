@@ -1,9 +1,15 @@
 <?php
-class GlueException extends Exception {
-	var $code;
-	var $name;
-}
+/**
+ * Gluestick, simple Glue API interface
+ * @author Justin Poliey <jdp34@njit.edu>
+ * @copyright 2009 Justin Poliey <jdp34@njit.edu>
+ * @license http://www.opensource.org/licenses/mit-license.php The MIT License
+ * @package Gluestick
+ */
 
+/**
+ * Gluestick base class
+ */
 abstract class Gluestick {
 
 	protected $__username;
@@ -35,8 +41,17 @@ abstract class Gluestick {
 	
 }
 
+/**
+ * Synchronous version of Gluestick
+ */
 class Glue extends Gluestick {
 
+	/**
+	 * Does the API request grunt work
+	 * @access private
+	 * @param string $api_url The full URL of the Glue API method
+	 * @return string The response
+	 */
 	protected function request($api_url) {
 		$curl_handle = curl_init();
 		curl_setopt($curl_handle, CURLOPT_URL, $api_url);
@@ -51,10 +66,19 @@ class Glue extends Gluestick {
 
 }
 
+/**
+ * Asynchronous version of Gluestick
+ */
 class GlueAsync extends Gluestick {
 
 	var $handles = array();
 	
+	/**
+	 * Does the API request grunt work
+	 * @access private
+	 * @param string $api_url The full URL of the Glue API method
+	 * @return resource The cURL handle for the API method
+	 */
 	function request($api_url) {
 		$curl_handle = curl_init();
 		curl_setopt($curl_handle, CURLOPT_URL, $api_url);
@@ -64,8 +88,14 @@ class GlueAsync extends Gluestick {
 		return $curl_handle;
 	}
 	
-	function exec() {
-		$handles = count(func_get_args()) ? func_get_args() : $this->handles;
+	/**
+	 * Asynchronously sends cURL requests and returns their results
+	 * @access public
+	 * @param array $handles Array of cURL handles. Named keys are respected and returned, treated as aliases
+	 * @return array The status codes and responses from the cURL handles
+	 */
+	function exec($handles = array()) {
+		$handles = count($handles) ? $handles : $this->handles;
 		$multi_handle = curl_multi_init();
 		foreach ($handles as $handle) {
 			curl_multi_add_handle($multi_handle, $handle);
@@ -81,8 +111,8 @@ class GlueAsync extends Gluestick {
 			}
 		}
 		$results = array();
-		foreach ($handles as $handle) {
-			$results[] = array(
+		foreach ($handles as $alias => $handle) {
+			$results[$alias] = array(
 				'code' => curl_getinfo($handle, CURLINFO_HTTP_CODE),
 				'response' => curl_multi_getcontent($handle)
 			);
@@ -91,4 +121,3 @@ class GlueAsync extends Gluestick {
 	}
 	
 }
-?>
